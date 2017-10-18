@@ -1,0 +1,15 @@
+node {
+    stage 'build cloud config'
+    git credentialsId: '2c3877ec-07ca-437f-b133-dbbf0a44a6bd', url: 'ssh://jenkinsgit@cborghome.ddns.net/opt/gitcborg/toasthub-m-config.git'
+    
+    def core_path = "toasthub-m-config"
+    dir(core_path) {
+        sh 'mvn clean install'
+    }
+    
+    stage 'move to staging area'
+    def workspace = pwd()
+    echo "work space ${workspace}"
+    sh "cp ${workspace}/toasthub-m-config/target/toasthub-m-config-1.0-SNAPSHOT.jar /opt/software"
+    
+}
